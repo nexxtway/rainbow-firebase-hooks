@@ -7,13 +7,13 @@ export type CollectionRef = Firebase.firestore.CollectionReference;
 export type UseCollectionHook = (Doc[] | boolean)[];
 
 export interface UseCollectionProps {
-    path: string,
-    query?: (ref: CollectionRef) =>  CollectionRef;
+    path: string;
+    query?: (ref: CollectionRef) => CollectionRef;
 }
 
 export interface Doc {
     id: string;
-    data: any;
+    data: Firebase.firestore.DocumentData | undefined;
 }
 
 const defaultData: Doc[] = [];
@@ -23,13 +23,14 @@ export default function useCollectionOnce(props: UseCollectionProps): UseCollect
     const { app } = useContext(Context);
     const [data, setData] = useState(defaultData);
     const [isLoading, setIsLoading] = useState(true);
-    
+
     if (app) {
         useEffect(() => {
             const ref = app.firestore().collection(path);
             const finalQuery = query ? query(ref) : ref;
-            
-            finalQuery.get()
+
+            finalQuery
+                .get()
                 .then((querySnapshot: Firebase.firestore.QuerySnapshot) => {
                     const ret: Doc[] = [];
                     querySnapshot.forEach((doc: Firebase.firestore.DocumentSnapshot) => {
@@ -40,11 +41,12 @@ export default function useCollectionOnce(props: UseCollectionProps): UseCollect
                     });
                     setData(ret);
                     setIsLoading(false);
-                }).catch((err: any) => {
-                    console.log(err)
+                })
+                .catch((err: object) => {
+                    console.log(err);
                 });
         }, [props.path]);
     }
 
     return [data, isLoading];
-} 
+}
