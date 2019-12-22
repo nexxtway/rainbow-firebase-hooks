@@ -1,0 +1,37 @@
+{
+  "name": "firebase-hooks",
+  "version": "0.0.1",
+  "description": "Set of React Firebase Hooks",
+  "main": "build/lib/index.js",
+  "types": "build/lib/index.d.js",
+  "repository": "git@github.com:nexxtway/firebase-hooks.git",
+  "author": "Nexxtway Team",
+  "license": "MIT",
+  "dependencies": {
+    "react-rainbow-components": "^1.11.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@storybook/addon-actions": "^5.2.8",
+    "@storybook/addon-info": "^5.2.8",
+    "@storybook/addon-links": "^5.2.8",
+    "@storybook/addons": "^5.2.8",
+    "@storybook/react": "^5.2.8",
+    "@types/jest": "^24.0.24",
+    "@types/react": "^16.9.16",
+    "@types/react-dom": "^16.9.4",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.6",
+    "firebase": "^7.6.1",
+    "jest": "^24.9.0",
+    "react-docgen-typescript-loader": "^3.6.0",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.3"
+  },
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "build": "tsc",
+    "prepare" : "yarn build"
+  }
+}
