@@ -1,5 +1,5 @@
 {
-    "name": "firebase-hooks",
+    "name": "rainbow-firebase-hooks",
     "version": "0.0.1",
     "description": "Set of React Firebase Hooks",
     "main": "build/lib/index.js",
