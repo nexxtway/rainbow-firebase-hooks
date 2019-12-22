@@ -44,6 +44,7 @@
         "build": "tsc",
         "clean": "rm -Rf storybook-static",
         "prepublishOnly": "yarn clean && yarn build",
+        "prepare:canary": "node scripts/prepare-canary.js",
         "lint": "tsc --noEmit && eslint --ext '.js,.ts,.tsx' src",
         "test": "jest ./src --verbose --passWithNoTests",
         "deploy:library": "yarn build-storybook && firebase deploy"
