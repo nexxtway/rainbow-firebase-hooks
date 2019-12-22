@@ -1,0 +1,24 @@
+{
+    "firestore": {
+        "rules": "firestore.rules",
+        "indexes": "firestore.indexes.json"
+    },
+    "hosting": {
+        "public": "storybook-static",
+        "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ]
+    },
+    "storage": {
+        "rules": "storage.rules"
+    },
+    "emulators": {
+        "firestore": {
+            "port": 8080
+        }
+    }
+}

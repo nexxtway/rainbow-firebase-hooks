@@ -1,37 +1,57 @@
 {
-  "name": "firebase-hooks",
-  "version": "0.0.1",
-  "description": "Set of React Firebase Hooks",
-  "main": "build/lib/index.js",
-  "types": "build/lib/index.d.js",
-  "repository": "git@github.com:nexxtway/firebase-hooks.git",
-  "author": "Nexxtway Team",
-  "license": "MIT",
-  "dependencies": {
-    "react-rainbow-components": "^1.11.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.7.7",
-    "@storybook/addon-actions": "^5.2.8",
-    "@storybook/addon-info": "^5.2.8",
-    "@storybook/addon-links": "^5.2.8",
-    "@storybook/addons": "^5.2.8",
-    "@storybook/react": "^5.2.8",
-    "@types/jest": "^24.0.24",
-    "@types/react": "^16.9.16",
-    "@types/react-dom": "^16.9.4",
-    "awesome-typescript-loader": "^5.2.1",
-    "babel-loader": "^8.0.6",
-    "firebase": "^7.6.1",
-    "jest": "^24.9.0",
-    "react-docgen-typescript-loader": "^3.6.0",
-    "ts-jest": "^24.2.0",
-    "typescript": "^3.7.3"
-  },
-  "scripts": {
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "build": "tsc",
-    "prepare" : "yarn build"
-  }
+    "name": "rainbow-firebase-hooks",
+    "version": "0.0.1",
+    "description": "Set of React Firebase Hooks",
+    "main": "build/lib/index.js",
+    "types": "build/lib/index.d.js",
+    "repository": "git@github.com:nexxtway/firebase-hooks.git",
+    "author": "Nexxtway Team",
+    "license": "MIT",
+    "dependencies": {
+        "react-rainbow-components": "^1.11.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.7.7",
+        "@storybook/addon-actions": "^5.2.8",
+        "@storybook/addon-info": "^5.2.8",
+        "@storybook/addon-links": "^5.2.8",
+        "@storybook/addons": "^5.2.8",
+        "@storybook/react": "^5.2.8",
+        "@types/jest": "^24.0.24",
+        "@types/react": "^16.9.16",
+        "@types/react-dom": "^16.9.4",
+        "@typescript-eslint/eslint-plugin": "^2.12.0",
+        "@typescript-eslint/parser": "^2.12.0",
+        "awesome-typescript-loader": "^5.2.1",
+        "babel-loader": "^8.0.6",
+        "eslint": "^6.8.0",
+        "eslint-config-prettier": "^6.7.0",
+        "eslint-plugin-prettier": "^3.1.2",
+        "firebase": "^7.6.1",
+        "firebase-tools": "^7.11.0",
+        "husky": "^3.1.0",
+        "jest": "^24.9.0",
+        "prettier": "^1.19.1",
+        "pretty-quick": "^2.0.1",
+        "react-docgen-typescript-loader": "^3.6.0",
+        "shelljs": "^0.8.3",
+        "ts-jest": "^24.2.0",
+        "typescript": "^3.7.3"
+    },
+    "scripts": {
+        "storybook": "start-storybook -p 6006",
+        "build-storybook": "build-storybook",
+        "build": "tsc",
+        "clean": "rm -Rf storybook-static",
+        "prepublishOnly": "yarn clean && yarn build",
+        "lint": "tsc --noEmit && eslint --ext '.js,.ts,.tsx' src",
+        "test": "jest ./src --verbose --passWithNoTests",
+        "deploy:library": "yarn build-storybook && firebase deploy"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "pretty-quick --staged",
+            "pre-push": "yarn lint && yarn test"
+        }
+    }
 }
