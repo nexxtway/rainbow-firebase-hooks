@@ -1,27 +1,18 @@
 import { useContext, useEffect, useState } from 'react';
 import Context from '../context';
-import { 
-    Doc, 
-    CollectionRef, 
-    UseCollectionHook,
-    DocumentSnapshot,
-    QuerySnapshot,
-} from './firestore';
-
+import { Doc, CollectionRef, UseCollectionHook, DocumentSnapshot, QuerySnapshot } from './firestore';
 
 export interface UseCollectionOnceProps {
     path: string;
     query?: (ref: CollectionRef) => CollectionRef;
 }
 
-
-
 const defaultData: Doc[] = [];
 
 export default function useCollectionOnce(props: UseCollectionOnceProps): UseCollectionHook {
     const { path, query } = props;
     const { app } = useContext(Context);
-    
+
     const [data, setData] = useState(defaultData);
     const [isLoading, setIsLoading] = useState(true);
 
