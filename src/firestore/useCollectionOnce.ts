@@ -1,26 +1,18 @@
-import * as Firebase from 'firebase';
 import { useContext, useEffect, useState } from 'react';
 import Context from '../context';
+import { Doc, CollectionRef, UseCollectionHook, DocumentSnapshot, QuerySnapshot } from './firestore';
 
-export type CollectionRef = Firebase.firestore.CollectionReference;
-
-export type UseCollectionHook = (Doc[] | boolean)[];
-
-export interface UseCollectionProps {
+export interface UseCollectionOnceProps {
     path: string;
     query?: (ref: CollectionRef) => CollectionRef;
 }
 
-export interface Doc {
-    id: string;
-    data: Firebase.firestore.DocumentData | undefined;
-}
-
 const defaultData: Doc[] = [];
 
-export default function useCollectionOnce(props: UseCollectionProps): UseCollectionHook {
+export default function useCollectionOnce(props: UseCollectionOnceProps): UseCollectionHook {
     const { path, query } = props;
     const { app } = useContext(Context);
+
     const [data, setData] = useState(defaultData);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -31,9 +23,9 @@ export default function useCollectionOnce(props: UseCollectionProps): UseCollect
 
             finalQuery
                 .get()
-                .then((querySnapshot: Firebase.firestore.QuerySnapshot) => {
+                .then((querySnapshot: QuerySnapshot) => {
                     const ret: Doc[] = [];
-                    querySnapshot.forEach((doc: Firebase.firestore.DocumentSnapshot) => {
+                    querySnapshot.forEach((doc: DocumentSnapshot) => {
                         ret.push({
                             id: doc.id,
                             data: doc.data(),
