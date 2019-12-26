@@ -1,53 +1,52 @@
-import { useContext, useEffect, useState } from 'react';
+import { 
+    useContext, 
+    useEffect, 
+    useState, 
+} from 'react';
 import Context from '../context';
 import { 
     Doc, 
     CollectionRef, 
     UseCollectionHook,
-    DocumentSnapshot,
     QuerySnapshot,
+    DocumentChange,
 } from './firestore';
 
-
-export interface UseCollectionOnceProps {
+export interface UseCollectionProps {
     path: string;
     query?: (ref: CollectionRef) => CollectionRef;
 }
 
-
-
 const defaultData: Doc[] = [];
 
-export default function useCollectionOnce(props: UseCollectionOnceProps): UseCollectionHook {
+export default function useCollection(props: UseCollectionProps): UseCollectionHook {
     const { path, query } = props;
     const { app } = useContext(Context);
     
-    const [data, setData] = useState(defaultData);
-    const [isLoading, setIsLoading] = useState(true);
-
+    const [isLoading, setIsLoading] = useState(false);
+    const [data, setData] = useState(defaultData); 
+    
     if (app) {
         useEffect(() => {
             const ref = app.firestore().collection(path);
             const finalQuery = query ? query(ref) : ref;
-
+            
+            setIsLoading(true);
             finalQuery
-                .get()
-                .then((querySnapshot: QuerySnapshot) => {
+                .onSnapshot((querySnapshot: QuerySnapshot) => {
                     const ret: Doc[] = [];
-                    querySnapshot.forEach((doc: DocumentSnapshot) => {
+                    querySnapshot.docChanges().forEach((change: DocumentChange) => {
                         ret.push({
-                            id: doc.id,
-                            data: doc.data(),
+                            id: change.doc.id,
+                            data: change.doc.data(),
+                            changeType: change.type,
                         });
                     });
                     setData(ret);
-                    setIsLoading(false);
-                })
-                .catch((err: object) => {
-                    console.log(err);
+                    setIsLoading(false);    
                 });
+               
         }, [props.path]);
     }
-
     return [data, isLoading];
 }
