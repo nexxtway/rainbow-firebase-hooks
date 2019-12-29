@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "build/lib",
+        "outDir": "build",
         "module": "commonjs",
         "target": "es5",
         "lib": ["es5", "es6", "es7", "es2017", "dom"],
@@ -22,6 +22,6 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true
     },
-    "include": ["src/**/*", "stories/firebase.ts"],
+    "include": ["src/**/*"],
     "exclude": ["node_modules", "build", "scripts", "**/*.spec.js", "**/*.spec.ts"]
 }
