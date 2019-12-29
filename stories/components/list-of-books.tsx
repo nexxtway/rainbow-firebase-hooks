@@ -3,9 +3,12 @@ import { Table, Column, Application } from 'react-rainbow-components';
 export type Author = string[];
 
 export interface Book {
-    name: string;
-    price: number;
-    authors: Author[];
+    id: string;
+    data?: {
+        name?: string;
+        price?: number;
+        authors?: Author[];
+    };
 }
 
 export interface ListOfBooksProps {

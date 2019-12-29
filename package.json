@@ -7,9 +7,6 @@
     "repository": "git@github.com:nexxtway/firebase-hooks.git",
     "author": "Nexxtway Team",
     "license": "MIT",
-    "dependencies": {
-        "react-rainbow-components": "^1.11.0"
-    },
     "devDependencies": {
         "@babel/core": "^7.7.7",
         "@storybook/addon-actions": "^5.2.8",
@@ -34,9 +31,11 @@
         "prettier": "^1.19.1",
         "pretty-quick": "^2.0.1",
         "react-docgen-typescript-loader": "^3.6.0",
+        "react-json-view": "^1.19.1",
+        "react-rainbow-components": "^1.11.0",
         "shelljs": "^0.8.3",
         "ts-jest": "^24.2.0",
-        "typescript": "^3.7.3"
+        "typescript": "^3.7.4"
     },
     "scripts": {
         "storybook": "start-storybook -p 6006",
