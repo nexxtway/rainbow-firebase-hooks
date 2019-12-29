@@ -22,6 +22,6 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true
     },
-    "include": ["src/**/*", "stories/firebase.js"],
+    "include": ["src/**/*", "stories/firebase.ts"],
     "exclude": ["node_modules", "build", "scripts", "**/*.spec.js", "**/*.spec.ts"]
 }

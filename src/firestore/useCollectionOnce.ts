@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import Context from '../context';
-import { Doc, CollectionRef, UseCollectionHook, DocumentSnapshot, QuerySnapshot } from './firestore';
+import { Doc, CollectionRef, Query, UseCollectionHook, DocumentSnapshot, QuerySnapshot } from './firestore';
 
 export interface UseCollectionOnceProps {
     path: string;
-    query?: (ref: CollectionRef) => CollectionRef;
+    query?: (ref: CollectionRef) => Query;
 }
 
 const defaultData: Doc[] = [];

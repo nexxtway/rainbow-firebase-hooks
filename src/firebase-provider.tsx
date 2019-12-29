@@ -5,7 +5,7 @@ import Context from './context';
 
 export interface ProviderProps {
     value: { app: Firebase.app.App };
-    children: React.ReactChildren;
+    children: React.ReactNode;
 }
 
 export default function FirebaseProvider(props: ProviderProps): JSX.Element {

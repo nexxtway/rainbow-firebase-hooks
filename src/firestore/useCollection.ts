@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import Context from '../context';
-import { Doc, CollectionRef, UseCollectionHook, QuerySnapshot, DocumentChange } from './firestore';
+import { Doc, CollectionRef, Query, UseCollectionHook, QuerySnapshot, DocumentChange } from './firestore';
 
 export interface UseCollectionProps {
     path: string;
-    query?: (ref: CollectionRef) => CollectionRef;
+    query?: (ref: CollectionRef) => Query;
 }
 
 const defaultData: Doc[] = [];
@@ -22,7 +22,7 @@ export default function useCollection(props: UseCollectionProps): UseCollectionH
             const finalQuery = query ? query(ref) : ref;
 
             setIsLoading(true);
-            finalQuery.onSnapshot((querySnapshot: QuerySnapshot) => {
+            const unsubscribe = finalQuery.onSnapshot((querySnapshot: QuerySnapshot) => {
                 const ret: Doc[] = [];
                 querySnapshot.docChanges().forEach((change: DocumentChange) => {
                     ret.push({
@@ -34,6 +34,9 @@ export default function useCollection(props: UseCollectionProps): UseCollectionH
                 setData(ret);
                 setIsLoading(false);
             });
+            return () => {
+                return unsubscribe();
+            };
         }, [props.path]);
     }
     return [data, isLoading];
