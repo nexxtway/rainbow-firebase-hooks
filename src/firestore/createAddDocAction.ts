@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import Context from '../context';
 import { DocumentReference, FirestoreError } from './firestore';
+import getPath from '../helpers/getPath';
 
 export interface Props {
     path: string;
@@ -23,12 +24,12 @@ export default function createAddDocAction(props: Props): ReturnType {
 
     if (app) {
         useEffect(() => {
-            setAction(() => async (data: Data) => {
+            setAction(() => async (data: Data, ...args: any[]) => {
                 try {
                     setIsLoading(true);
                     const docRef = await app
                         .firestore()
-                        .collection(path)
+                        .collection(getPath(path, ...args))
                         .add({
                             ...data,
                             createdAt: new Date(),
