@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react';
-import Firebase from 'firebase';
 import Context from '../context';
 import { DocumentReference, FirestoreError } from './firestore';
 
@@ -32,7 +31,7 @@ export default function createAddDocAction(props: Props): ReturnType {
                         .collection(path)
                         .add({
                             ...data,
-                            createdAt: Firebase.firestore.FieldValue.serverTimestamp(),
+                            createdAt: new Date(),
                         });
                     setIsLoading(false);
                     return docRef;
