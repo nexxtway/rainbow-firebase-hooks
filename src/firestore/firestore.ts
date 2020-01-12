@@ -17,3 +17,5 @@ export type QuerySnapshot = Firebase.firestore.QuerySnapshot;
 
 export type DocumentReference = Firebase.firestore.DocumentReference;
 export type FirestoreError = Firebase.firestore.FirestoreError;
+
+export type CurrentUser = Firebase.User | null;
