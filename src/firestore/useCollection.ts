@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import Context from '../context';
-import { Doc, CollectionRef, Query, UseCollectionHook, QuerySnapshot, DocumentChange } from './firestore';
+import { Doc, CollectionRef, Query, UseCollectionHook, QuerySnapshot } from './firestore';
 
 export interface UseCollectionProps {
     path: string;
@@ -23,15 +23,12 @@ export default function useCollection(props: UseCollectionProps): UseCollectionH
 
             setIsLoading(true);
             const unsubscribe = finalQuery.onSnapshot((querySnapshot: QuerySnapshot) => {
-                const ret: Doc[] = [];
-                querySnapshot.docChanges().forEach((change: DocumentChange) => {
-                    ret.push({
-                        id: change.doc.id,
-                        data: change.doc.data(),
-                        changeType: change.type,
-                    });
-                });
-                setData(ret);
+                setData(
+                    querySnapshot.docs.map(doc => ({
+                        id: doc.id,
+                        data: doc.data(),
+                    })),
+                );
                 setIsLoading(false);
             });
             return () => {
