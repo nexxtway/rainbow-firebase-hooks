@@ -3,15 +3,17 @@ import Context from '../context';
 import { DocumentReference, FirestoreError } from './firestore';
 import getPath from '../helpers/getPath';
 
+type PathFunc = (...args: any[]) => string;
+
 export interface Props {
-    path: string;
+    path: string | PathFunc;
 }
 
 interface Data {
     [key: string]: any;
 }
 
-type Action = (data?: Data) => Promise<DocumentReference | FirestoreError> | void;
+type Action = (data?: Data, ...args: any[]) => Promise<DocumentReference | FirestoreError> | void;
 
 type ReturnType = [Action, boolean];
 
