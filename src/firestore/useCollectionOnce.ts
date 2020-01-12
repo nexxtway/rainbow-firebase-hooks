@@ -1,16 +1,18 @@
 import { useContext, useEffect, useState } from 'react';
 import Context from '../context';
-import { Doc, CollectionRef, Query, UseCollectionHook, DocumentSnapshot, QuerySnapshot } from './firestore';
+import { CollectionRef, Query, UseCollectionData, UseCollectionHook, QuerySnapshot } from './firestore';
+import getData from '../helpers/getData';
 
 export interface UseCollectionOnceProps {
     path: string;
     query?: (ref: CollectionRef) => Query;
+    onlyIds?: boolean;
 }
 
-const defaultData: Doc[] = [];
+const defaultData: UseCollectionData = [];
 
 export default function useCollectionOnce(props: UseCollectionOnceProps): UseCollectionHook {
-    const { path, query } = props;
+    const { path, query, onlyIds = false } = props;
     const { app } = useContext(Context);
 
     const [data, setData] = useState(defaultData);
@@ -24,14 +26,7 @@ export default function useCollectionOnce(props: UseCollectionOnceProps): UseCol
             finalQuery
                 .get()
                 .then((querySnapshot: QuerySnapshot) => {
-                    const ret: Doc[] = [];
-                    querySnapshot.forEach((doc: DocumentSnapshot) => {
-                        ret.push({
-                            id: doc.id,
-                            data: doc.data(),
-                        });
-                    });
-                    setData(ret);
+                    setData(getData(querySnapshot.docs, onlyIds));
                     setIsLoading(false);
                 })
                 .catch((err: object) => {

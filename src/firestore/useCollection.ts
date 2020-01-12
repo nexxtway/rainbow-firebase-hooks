@@ -1,23 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import Context from '../context';
-import {
-    CollectionRef,
-    Query,
-    UseCollectionData,
-    UseCollectionHook,
-    QuerySnapshot,
-    QueryDocumentSnapshot,
-} from './firestore';
-
-function getData(docs: QueryDocumentSnapshot[], onlyIds: boolean): UseCollectionData {
-    if (onlyIds) {
-        return docs.map(doc => doc.id);
-    }
-    return docs.map(doc => ({
-        id: doc.id,
-        data: doc.data(),
-    }));
-}
+import { CollectionRef, Query, UseCollectionData, UseCollectionHook, QuerySnapshot } from './firestore';
+import getData from '../helpers/getData';
 
 export interface UseCollectionProps {
     path: string;
@@ -31,7 +15,7 @@ export default function useCollection(props: UseCollectionProps): UseCollectionH
     const { path, query, onlyIds = false } = props;
     const { app } = useContext(Context);
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState(defaultData);
 
     if (app) {
@@ -39,7 +23,6 @@ export default function useCollection(props: UseCollectionProps): UseCollectionH
             const ref = app.firestore().collection(path);
             const finalQuery = query ? query(ref) : ref;
 
-            setIsLoading(true);
             const unsubscribe = finalQuery.onSnapshot((querySnapshot: QuerySnapshot) => {
                 setData(getData(querySnapshot.docs, onlyIds));
                 setIsLoading(false);
