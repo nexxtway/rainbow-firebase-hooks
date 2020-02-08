@@ -30,6 +30,7 @@ export default function useCollectionOnce(props: UseCollectionOnceProps): UseCol
                     setIsLoading(false);
                 })
                 .catch((err: object) => {
+                    setIsLoading(false);
                     console.log(err);
                 });
         }, [props.path]);
