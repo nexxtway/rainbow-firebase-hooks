@@ -33,7 +33,7 @@ export default function useCollectionOnce(props: UseCollectionOnceProps): UseCol
                     setIsLoading(false);
                     console.log(err);
                 });
-        }, [props.path]);
+        }, [props.path, props.onlyIds]);
     }
 
     return [data, isLoading];

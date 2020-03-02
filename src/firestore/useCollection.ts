@@ -23,14 +23,20 @@ export default function useCollection(props: UseCollectionProps): UseCollectionH
             const ref = app.firestore().collection(path);
             const finalQuery = query ? query(ref) : ref;
 
-            const unsubscribe = finalQuery.onSnapshot((querySnapshot: QuerySnapshot) => {
-                setData(getData(querySnapshot.docs, onlyIds));
-                setIsLoading(false);
-            });
+            const unsubscribe = finalQuery.onSnapshot(
+                (querySnapshot: QuerySnapshot) => {
+                    setData(getData(querySnapshot.docs, onlyIds));
+                    setIsLoading(false);
+                },
+                (err: object) => {
+                    setIsLoading(false);
+                    console.log(err);
+                },
+            );
             return () => {
                 return unsubscribe();
             };
-        }, [props.path]);
+        }, [props.path, props.onlyIds]);
     }
     return [data, isLoading];
 }

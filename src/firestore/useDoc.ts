@@ -17,15 +17,23 @@ export default function useDoc(props: UseDocProps): UseDocHook {
         useEffect(() => {
             const ref = app.firestore().doc(path);
             setIsLoading(true);
-            const unsubscribe = ref.onSnapshot((doc: DocumentSnapshot) => {
-                if (doc.exists) {
-                    setData({
-                        id: doc.id,
-                        data: doc.data(),
-                    });
-                }
-                setIsLoading(false);
-            });
+            const unsubscribe = ref.onSnapshot(
+                (doc: DocumentSnapshot) => {
+                    if (doc.exists) {
+                        setData({
+                            id: doc.id,
+                            data: doc.data(),
+                        });
+                    } else {
+                        setData(null);
+                    }
+                    setIsLoading(false);
+                },
+                (err: object) => {
+                    setIsLoading(false);
+                    console.log(err);
+                },
+            );
             return () => {
                 return unsubscribe();
             };

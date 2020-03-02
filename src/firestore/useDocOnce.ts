@@ -23,6 +23,8 @@ export default function useDocOnce(props: UseDocProps): UseDocHook {
                             id: doc.id,
                             data: doc.data(),
                         });
+                    } else {
+                        setData(null);
                     }
                     setIsLoading(false);
                 })
